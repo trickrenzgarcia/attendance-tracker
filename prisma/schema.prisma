@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model employees {
+  id           Int      @id @default(autoincrement())
+  name         String   @db.VarChar(100)
+  contact      String   @db.VarChar(100)
+  department   String   @db.VarChar(100)
+  date_hired   DateTime @db.DateTime(0)
+  file_path    String   @db.VarChar(255)
+  employeeType String   @db.VarChar(255)
+}
+
+model job_applications {
+  id           Int      @id @default(autoincrement())
+  position     String   @db.VarChar(200)
+  name         String   @db.VarChar(255)
+  address      String   @db.VarChar(255)
+  mobile       String   @db.VarChar(11)
+  email        String   @db.VarChar(255)
+  file_path    String   @db.VarChar(255)
+  status       String   @default("pending") @db.VarChar(255)
+  schedule     DateTime @db.DateTime(0)
+  employeeType String   @db.VarChar(255)
+}
+
+model users {
+  id          Int    @id @default(autoincrement())
+  username    String @db.VarChar(255)
+  password    String @db.VarChar(255)
+  recoveryKey String @db.VarChar(255)
+}
