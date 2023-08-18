@@ -1,6 +1,10 @@
 import { authValidate } from "@/lib/auth";
 import NextAuth, { NextAuthOptions } from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaClient } from "@prisma/client";
+
+export const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -33,7 +37,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-
+  adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
 };
 
