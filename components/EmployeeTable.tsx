@@ -102,7 +102,7 @@ export default function EmployeeTable({ employees, token }: Props) {
                     <div className="flex items-center pt-2">
                       <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}
                       <span className="text-xs text-muted-foreground">
-                        {new Date(Date.now()).toLocaleDateString("en-US", {
+                        Updated on {new Date(Date.now()).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "short",
                           day: "numeric",
