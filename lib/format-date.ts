@@ -57,6 +57,7 @@ export function formatTime(dateTimeStr: string): string {
 
   // Format the date into "h:mm A" format
   const formattedTime = date.toLocaleString("en-US", {
+    timeZone: "Asia/Manila",
     hour: "numeric",
     minute: "numeric",
     hour12: true,
