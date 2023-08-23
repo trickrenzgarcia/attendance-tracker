@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
+import Link from 'next/link'
 
 type Props = {
   error: Error,
@@ -11,6 +12,7 @@ export default function Error({ error, reset}: Props){
   return (
   <div>
     <h1 className="text-3xl">{error.message}</h1>
+    <Link href='/'><Button>Back</Button></Link>
     <Button onClick={reset}>Try Again</Button>
   </div>)
 }

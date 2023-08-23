@@ -6,6 +6,7 @@ type Props = {
 }
 
 const Content = ({ title, value }: Props) => {
+
   return (
     <div className='mb-4'>
       <h1 className="text-[14px] text-gray-500">{title}</h1>

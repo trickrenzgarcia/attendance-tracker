@@ -86,24 +86,27 @@ export function pthdTo24Hours(duration: string): string {
   return "";
 }
 
-export function calculateTardiness(individualCheckInTime: string): string {
-  const officeStartTimeObj = new Date();
-  officeStartTimeObj.setHours(9, 0, 0, 0);
+export function calculateTardiness(input: string): string {
+  // Extract hours, minutes, and seconds from the input
+  const match: any = input.match(/PT(?:(\d+)H)?(?:(\d+)M)?(\d+\.\d+)S/);
+  if (!match) {
+    return "";
+  }
 
-  const individualCheckInTimeObj = new Date(individualCheckInTime);
+  const hours = parseFloat(match[1] || 0);
+  const minutes = parseFloat(match[2] || 0);
+  const seconds = parseFloat(match[3]);
 
-  const totalOfficeStartMinutes =
-    officeStartTimeObj.getHours() * 60 + officeStartTimeObj.getMinutes();
-  const totalCheckInMinutes =
-    individualCheckInTimeObj.getHours() * 60 +
-    individualCheckInTimeObj.getMinutes();
+  // Convert input time to minutes
+  const totalMinutes = hours * 60 + minutes + seconds / 60;
 
-  const tardinessMinutes = totalCheckInMinutes - totalOfficeStartMinutes;
-
-  if (tardinessMinutes <= 0) {
+  // Check if the total time is greater than or equal to 9 hours
+  if (totalMinutes >= 9 * 60) {
     return "No tardiness";
   } else {
-    return `${tardinessMinutes.toString().padStart(2, "0")} minutes`;
+    // Calculate tardiness
+    const tardinessMinutes = 9 * 60 - totalMinutes;
+    return `${tardinessMinutes.toFixed(2)} minutes`;
   }
 }
 
@@ -118,4 +121,10 @@ export const calculateTotalHours = (dailyData: any) => {
     }
   }
   return totalHours;
+};
+
+export const isNotLate = (inputValue: string): boolean => {
+  const timeIn = new Date(`2023-08-23 ${inputValue}`);
+  const lateTime = new Date(`2023-08-23 9:00 AM`);
+  return timeIn < lateTime;
 };
