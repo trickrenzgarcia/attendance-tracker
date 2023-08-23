@@ -45,7 +45,6 @@ export default function RootLayout({ children, employees, ojts, flexible }: Prop
               </Tabs>
             )}
             {children}
-              
             <Footer year='2023' corporation='Brojava'/>
           </AuthProvider>
         </ThemeProvider>
