@@ -32,9 +32,9 @@ export default function RootLayout({ children, employees, ojts, flexible }: Prop
         <ThemeProvider attribute='class' defaultTheme='light' enableSystem>
           <AuthProvider>
             <Navbar />
-            <TabsProvider employees={employees} ojts={ojts} flexible={flexible}>
-              {children}
-            </TabsProvider>
+              <TabsProvider employees={employees} ojts={ojts} flexible={flexible}>
+                {children}
+              </TabsProvider>
             <Footer year='2023' corporation='Brojava'/>
           </AuthProvider>
         </ThemeProvider>

@@ -13,14 +13,16 @@ type Props = {
   flexible: React.ReactNode
 }
 
-export default function TabsProvider({ employees, ojts, flexible }: Props) {
+export default function TabsProvider({ children, employees, ojts, flexible }: Props) {
   const pathname = usePathname()
-  console.log(pathname)
+  
   return (
-    <Tabs>
-      <TabsContent value='employees'>{employees}</TabsContent>
-      <TabsContent value='ojts'>{ojts}</TabsContent>
-      <TabsContent value='flexible'>{flexible}</TabsContent>
-    </Tabs>
+    pathname === '/' ? (
+      <Tabs>
+        <TabsContent value='employees'>{employees}</TabsContent>
+        <TabsContent value='ojts'>{ojts}</TabsContent>
+        <TabsContent value='flexible'>{flexible}</TabsContent>
+      </Tabs>
+    ) : <div>{children}</div>
   )
 }
