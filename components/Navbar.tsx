@@ -33,11 +33,11 @@ export default function Navbar() {
         <div>
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           <p className="cursor-pointer select-none hover:text-gray-400">Tiger's Mark Company</p>
-          <h1 className='cursor-pointer hover:text-gray-400 text-4xl select-none'>Attendance Tracker</h1>
+          <h1 className='cursor-pointer hover:text-gray-400 text-2xl md:text-4xl select-none'>Attendance Tracker</h1>
         </div>
         
         <div className='flex flex-row items-center gap-5'>
-          <p className='text-2xl'>Tmc-admin</p>
+          <p className='text-2xl hidden md:contents'>Tmc-admin</p>
           <div>
           <Button variant="default" size="icon" onClick={handleThemeMode}>
             {toggleTheme === true ? (

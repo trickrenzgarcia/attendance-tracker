@@ -1,9 +1,12 @@
+import EmployeeTable from '@/components/EmployeeTable'
+import { getAccessToken } from '@/lib/access-token'
+import { getFlexibleEmployees } from '@/lib/functions/get-flexible'
 import React from 'react'
 
-type Props = {}
-
-export default function Flexible({}: Props) {
+export default async function Flexible() {
+  const flexible = await getFlexibleEmployees()
+  const token = await getAccessToken()
   return (
-    <div>Flexible</div>
+    <EmployeeTable employees={flexible} token={token} />
   )
 }

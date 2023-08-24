@@ -10,6 +10,7 @@ import Content from "@/components/Content";
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import { getTotalTrackedTime } from '@/lib/functions';
 
 export default async function Page({ params }: { params: { id: string }}){
   const data = await getServerSession(authOptions)
@@ -23,7 +24,7 @@ export default async function Page({ params }: { params: { id: string }}){
       {person.map((p: any) => (
         <div key={p.personId}>
           <div className="grid grid-rows-3 grid-cols-12 gap-4">
-            <div className="col-span-12 lg:col-span-3 xl:col-span-4 row-span-3 lg:row-s">
+            <div className="col-span-12 lg:col-span-3 xl:col-span-4 row-span-3">
               <Card>
                 <div className="relative w-full max-w-[265px] aspect-square my-8 mx-auto">
                   <Image className="rounded-full border-gray-400 border-4" src={p.pictureUrl} alt="default profile" fill priority/>
@@ -53,6 +54,9 @@ export default async function Page({ params }: { params: { id: string }}){
 
                     <span className="text-[14px]">Total hours of work</span>
                     <p className="font-bold mb-5 text-3xl">{p.totalHours}</p>
+
+                    <span className="text-[14px]">Total Tracked Time:</span>
+                    <p className="font-bold mb-5 text-3xl">{getTotalTrackedTime(p.daily)}</p>
                     
                   </CardContent>
               </Card>
@@ -79,7 +83,7 @@ export default async function Page({ params }: { params: { id: string }}){
                             <p className={isNotLate(formatTime(d.firstIn)) ? "" : "text-red-500"}>{formatTime(d.firstIn)}</p>
                           </div>
                           <Content title="Last Out:" value={formatTime(d.lastOut)} />
-                          <Content title="Total Tracked Time:" value={pthdTo24Hours(d.tracked)} />
+                          <Content title="Tracked Time:" value={pthdTo24Hours(d.tracked)} />
                           <Content title="Tardy in minutes:" value={calculateTardiness(d.tracked)} />
                           <Content title="Overtime: " value={pthdTo24Hours(d.overtime)}/>
                         </CardContent>

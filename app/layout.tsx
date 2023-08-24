@@ -28,7 +28,7 @@ export default function RootLayout({ children, employees, ojts, flexible }: Prop
   
   return (
     <html lang="en">
-      <body className={inter.className + " container"}>
+      <body className={inter.className}>
         <ThemeProvider attribute='class' defaultTheme='light' enableSystem>
           <AuthProvider>
             <Navbar />
