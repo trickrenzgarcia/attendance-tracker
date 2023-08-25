@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export function formatDate(inputDate: string): string {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const months = [
@@ -52,6 +54,95 @@ export function formatTrackedTimeInSeconds(trackedTime: string) {
   return hours * 3600 + minutes * 60 + seconds;
 }
 
+export function fixedFormatTime(dateTimeStr: string): string {
+  const employeeLastOut = new Date(dateTimeStr);
+
+  if (!dateTimeStr) {
+    return "No record";
+  }
+
+  const firstInTime = new Date(dateTimeStr);
+  firstInTime.setHours(9, 0, 0, 0);
+  if (employeeLastOut <= firstInTime) return "09:00 AM";
+
+  const formattedTime = new Date(employeeLastOut).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return formattedTime;
+}
+
+export function fixedFirstIn(dateTime: string) {
+  const employeeLastOut = new Date(dateTime);
+
+  if (!dateTime) {
+    return "No record";
+  }
+
+  const lastOutTime = new Date(dateTime);
+  lastOutTime.setHours(9, 0, 0, 0);
+  if (employeeLastOut >= lastOutTime) return "09:00 AM";
+
+  const formattedTime = new Date(employeeLastOut).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return formattedTime;
+}
+
+export function fixedLastOut(dateTime: string) {
+  const employeeLastOut = new Date(dateTime);
+
+  if (!dateTime) {
+    return "No record";
+  }
+
+  const lastOutTime = new Date(dateTime);
+
+  if (employeeLastOut.getDay() === 6) {
+    lastOutTime.setHours(13, 0, 0, 0);
+    if (employeeLastOut > lastOutTime) return "01:00 PM";
+  } else {
+    lastOutTime.setHours(18, 0, 0, 0); // set to 6:00 PM on the same day
+    if (employeeLastOut > lastOutTime) return "06:00 PM";
+  }
+
+  const formattedTime = new Date(employeeLastOut).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return formattedTime;
+}
+
+export function trackedTime(fIn: string, lOut: string, dataTime: string) {
+  const firstIn: any = new Date(`2023-08-23 ${fIn}`);
+  const lastOut: any = new Date(`2023-08-23 ${lOut}`);
+
+  if (!firstIn || !lastOut || lOut === "No record" || fIn === "No record") {
+    return "No record";
+  }
+
+  const trackedTimeInSeconds = (lastOut - firstIn) / 1000; // Convert milliseconds to seconds
+  const requiredWorkTimeInSeconds = 9 * 60 * 60; // 9 hours in seconds
+
+  if (new Date(dataTime).getDay() === 6) {
+    return trackedTimeInSeconds >= 4 * 60 * 60 ? "04:00 PM" : "";
+  }
+
+  if (trackedTimeInSeconds >= requiredWorkTimeInSeconds) {
+    return "08:00 Hours";
+  }
+
+  const hours = Math.floor(trackedTimeInSeconds / 3600 - 1); // Convert seconds to hours
+  const minutes = Math.floor((trackedTimeInSeconds % 3600) / 60); // Remaining seconds to minutes
+  const period = hours >= 12 ? "Hours" : "Hours";
+  const displayHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+
+  return `${displayHours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")} ${period}`;
+}
+
 export function formatTime(dateTimeStr: string): string {
   const date = new Date(dateTimeStr);
 
@@ -86,28 +177,49 @@ export function pthdTo24Hours(duration: string): string {
   return "";
 }
 
-export function calculateTardiness(input: string): string {
-  // Extract hours, minutes, and seconds from the input
-  const match: any = input.match(/PT(?:(\d+)H)?(?:(\d+)M)?(\d+\.\d+)S/);
-  if (!match) {
-    return "";
+function calculateTimeDifference(
+  date1: Date,
+  date2: Date
+): { hours: number; minutes: number } {
+  const timeDiffMillis = Math.abs(date1.getTime() - date2.getTime());
+
+  const hours = timeDiffMillis / (1000 * 60 * 60) - 1;
+  console.log(hours, "hours");
+  const minutes = Math.floor((timeDiffMillis % (1000 * 60 * 60)) / (1000 * 60));
+  return { hours, minutes };
+}
+
+export function calculateTardiness(
+  firstInDate: string,
+  lastOutDate: string,
+  dateTime: string
+) {
+  const lastOutFiltered = fixedLastOut(lastOutDate);
+  const firstInFiltered = fixedFormatTime(firstInDate);
+  const date = new Date(dateTime);
+  const day = date.getDay();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const currentFirst: any = new Date(
+    `${year}-${month}-${day} ${lastOutFiltered}`
+  );
+  const currentLast: any = new Date(
+    `${year}-${month}-${day} ${firstInFiltered}`
+  );
+
+  const hours = Math.floor((currentFirst - currentLast) / 1000 / 60 / 60);
+  const minutes = (currentFirst - currentLast) / 1000 / 60;
+
+  if (day === 6) {
+    return hours >= 4 ? "No tardiness" : "";
   }
 
-  const hours = parseFloat(match[1] || 0);
-  const minutes = parseFloat(match[2] || 0);
-  const seconds = parseFloat(match[3]);
+  const isHour: boolean = hours >= 0;
 
-  // Convert input time to minutes
-  const totalMinutes = hours * 60 + minutes + seconds / 60;
+  return hours >= 9 ? "No tardiness" : isHour ? `${hours}hr` : "";
 
-  // Check if the total time is greater than or equal to 9 hours
-  if (totalMinutes >= 9 * 60) {
-    return "No tardiness";
-  } else {
-    // Calculate tardiness
-    const tardinessMinutes = 9 * 60 - totalMinutes;
-    return `${tardinessMinutes.toFixed(2)} minutes`;
-  }
+  console.log(minutes);
+  if (!lastOutFiltered || !firstInFiltered) return "No record";
 }
 
 export const calculateTotalHours = (dailyData: any) => {

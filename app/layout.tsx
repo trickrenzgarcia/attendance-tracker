@@ -28,7 +28,7 @@ export default function RootLayout({ children, employees, ojts, flexible }: Prop
   
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className + " ml-2 mr-2 md:ml-16 md:mr-16 lg:ml-20 lg:mr-20 transition-colors ease-in-out duration-300"}>
         <ThemeProvider attribute='class' defaultTheme='light' enableSystem>
           <AuthProvider>
             <Navbar />

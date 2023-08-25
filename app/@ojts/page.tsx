@@ -6,6 +6,9 @@ export default async function Ojts() {
   const ojts = await getOJTS()
   const token = await getAccessToken()
   return (
-    <EmployeeTable employees={ojts} token={token} />
+    <main className='min-h-[640px]'>
+      <EmployeeTable employees={ojts} token={token} />
+    </main>
+    
   )
 }

@@ -23,8 +23,9 @@ export default function Navbar() {
   const { setTheme } = useTheme()
 
   function handleThemeMode(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault()
     setToggleTheme(!toggleTheme)
-    setTheme(toggleTheme ? 'light' : 'dark')
+    setTheme(toggleTheme ? 'dark' : 'light')
   }
 
   return (

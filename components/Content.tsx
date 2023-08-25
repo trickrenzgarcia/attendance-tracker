@@ -2,7 +2,7 @@ import React from 'react'
 
 type Props = {
   title: string,
-  value: string | null,
+  value: string,
 }
 
 const Content = ({ title, value }: Props) => {

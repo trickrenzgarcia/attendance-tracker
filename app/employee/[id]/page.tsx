@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 import Image from "next/image";
 import Link from "next/link"; 
-import { calculateTardiness, formatDate, formatTime, isNotLate, pthdTo24Hours } from "@/lib/format-date";
+import { calculateTardiness, fixedFirstIn, fixedLastOut, formatDate, formatTime, isNotLate, pthdTo24Hours, trackedTime } from "@/lib/format-date";
 import Content from "@/components/Content";
 
 import { getServerSession } from 'next-auth/next'
@@ -82,10 +82,10 @@ export default async function Page({ params }: { params: { id: string }}){
                             <h1 className="text-[14px] text-gray-500">First In:</h1>
                             <p className={isNotLate(formatTime(d.firstIn)) ? "" : "text-red-500"}>{formatTime(d.firstIn)}</p>
                           </div>
-                          <Content title="Last Out:" value={formatTime(d.lastOut)} />
-                          <Content title="Tracked Time:" value={pthdTo24Hours(d.tracked)} />
-                          <Content title="Tardy in minutes:" value={calculateTardiness(d.tracked)} />
-                          <Content title="Overtime: " value={pthdTo24Hours(d.overtime)}/>
+                          <Content title="Last Out:" value={fixedLastOut(d.lastOut)} />
+                          <Content title="Tracked Time:" value={trackedTime(formatTime(d.firstIn), fixedLastOut(d.lastOut), d.firstIn)} />
+                          <Content title="Tardy in minutes:" value={calculateTardiness(d.firstIn, d.lastOut, d.firstIn)} />
+                          <Content title="Overtime:" value={pthdTo24Hours(d.overtime)}/>
                         </CardContent>
                       </Card>
                     ): null)
