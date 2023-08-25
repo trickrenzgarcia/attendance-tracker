@@ -112,6 +112,8 @@ export function fixedLastOut(dateTime: string) {
   const formattedTime = new Date(employeeLastOut).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
+    hour12: true,
+    timeZone: "Asia/Manila",
   });
   return formattedTime;
 }
@@ -120,7 +122,7 @@ export function trackedTime(fIn: string, lOut: string, dataTime: string) {
   const firstIn: any = new Date(`2023-08-23 ${fIn}`);
   const lastOut: any = new Date(`2023-08-23 ${lOut}`);
 
-  if (!firstIn || !lastOut || lOut === "No record" || fIn === "No record") {
+  if (lOut === "No record" || fIn === "No record") {
     return "No record";
   }
 
@@ -128,7 +130,7 @@ export function trackedTime(fIn: string, lOut: string, dataTime: string) {
   const requiredWorkTimeInSeconds = 9 * 60 * 60; // 9 hours in seconds
 
   if (new Date(dataTime).getDay() === 6) {
-    return trackedTimeInSeconds >= 4 * 60 * 60 ? "04:00 Hours" : "";
+    if (trackedTimeInSeconds >= 4 * 60 * 60) return "04:00 Hours";
   }
 
   if (trackedTimeInSeconds >= requiredWorkTimeInSeconds) {
