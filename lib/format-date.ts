@@ -68,6 +68,7 @@ export function fixedFormatTime(dateTimeStr: string): string {
   const formattedTime = new Date(employeeLastOut).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Asia/Manila",
   });
   return formattedTime;
 }
@@ -86,6 +87,7 @@ export function fixedFirstIn(dateTime: string) {
   const formattedTime = new Date(employeeLastOut).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Asia/Manila",
   });
   return formattedTime;
 }
