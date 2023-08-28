@@ -106,7 +106,9 @@ export function fixedLastOut(dateTime: string) {
     if (employeeLastOut > lastOutTime) return "01:00 PM";
   } else {
     lastOutTime.setHours(18, 0, 0, 0); // set to 6:00 PM on the same day
-    if (employeeLastOut > lastOutTime) return "06:00 PM";
+    if (employeeLastOut > lastOutTime) {
+      return "06:00 PM";
+    }
   }
 
   const formattedTime = new Date(employeeLastOut).toLocaleTimeString([], {
