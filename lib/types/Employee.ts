@@ -6,3 +6,16 @@ export type Employee = {
   daily: [] | null;
   tracker: string;
 };
+
+export type EmployeeDaily = {
+  date: string;
+  firstIn: string;
+  lastOut: string;
+  tracked: string;
+  regular: string;
+  overtime: string;
+  dailyOvertime: string;
+  dailyDoubleOvertime: string;
+  restDayOvertime: string;
+  publicHolidayOvertime: string;
+};

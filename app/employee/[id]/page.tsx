@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 import Image from "next/image";
 import Link from "next/link"; 
-import { calculateTardiness, fixedFirstIn, fixedLastOut, formatDate, formatTime, isNotLate, pthdTo24Hours, trackedTime } from "@/lib/format-date";
+import { calculateTardiness, fixedLastOut, formatDate, formatTime, isNotLate, pthdTo24Hours, totalDaysOfWork, totalTardinessTime, trackedTime } from "@/lib/format-date";
 import Content from "@/components/Content";
 
 import { getServerSession } from 'next-auth/next'
@@ -55,8 +55,10 @@ export default async function Page({ params }: { params: { id: string }}){
                     <span className="text-[14px]">Total hours of work</span>
                     <p className="font-bold mb-5 text-3xl">{p.totalHours}</p>
 
-                    <span className="text-[14px]">Total Tracked Time:</span>
-                    <p className="font-bold mb-5 text-3xl">{getTotalTrackedTime(p.daily)}</p>
+                    <span className="text-[14px]">Total Days:</span>
+                    <p className="font-bold mb-5 text-3xl">{totalDaysOfWork(p.daily)}</p>
+                    <span className="text-[14px]">Total Tardiness:</span>
+                    <p className="font-bold mb-5 text-3xl">{totalTardinessTime(p.daily)}</p>
                     
                   </CardContent>
               </Card>

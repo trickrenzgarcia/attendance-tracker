@@ -1,4 +1,5 @@
 import moment from "moment";
+import { EmployeeDaily } from "./types/Employee";
 
 export function formatDate(inputDate: string): string {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -244,3 +245,38 @@ export const isNotLate = (inputValue: string): boolean => {
   const lateTime = new Date(`2023-08-23 9:00 AM`);
   return timeIn < lateTime;
 };
+
+export function totalDaysOfWork(daily: EmployeeDaily[]) {
+  // this function grab daily of employee and get the length of his days of work
+  return daily.filter(
+    (d: EmployeeDaily) => d.firstIn !== null && d.lastOut !== null
+  ).length;
+}
+
+export function totalTardinessTime(daily: EmployeeDaily[]) {
+  const t = daily.filter((d) => d.firstIn !== null && d.lastOut !== null);
+  const m = t
+    .map((x) => calculateTardiness(x.firstIn, x.lastOut, x.firstIn))
+    .filter((c) => c.includes("minutes") || c.includes("minute"))
+    .map((z) => parseInt(z.split(" ")[0]));
+  const h = t
+    .map((x) => calculateTardiness(x.firstIn, x.lastOut, x.firstIn))
+    .filter((c) => c.includes("hours") || c.includes("hour"))
+    .map((z) => parseInt(z.split(" ")[0]));
+
+  // Sum up the total minutes
+  const totalMinutes = m.reduce((acc, current) => acc + current, 0);
+
+  const totalHours = h.reduce((acc, cur) => acc + cur, 0);
+
+  // Convert total minutes to hours and minutes
+  const hours = Math.floor(totalMinutes / 60) + totalHours;
+  const minutes = totalMinutes % 60;
+  let hh = hours > 1 ? hours + " hours" : " hour";
+  let mm = minutes > 1 ? minutes + " minutes" : minutes + " minute";
+
+  // Format hours and minutes
+  if (hours <= 0) return mm;
+
+  return hh + " " + mm;
+}

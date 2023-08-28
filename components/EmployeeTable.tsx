@@ -29,6 +29,8 @@ import { Card } from "./ui/card";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Input } from "./ui/input";
+import { EmployeeDaily } from '@/lib/types/Employee';
+import { totalDaysOfWork } from '@/lib/format-date';
 
 type Props = {
   employees: any;
@@ -39,7 +41,8 @@ export type Employee = {
   personId: string;
   fullName: string;
   pictureUrl: string;
-  totalHours: Float32Array;
+  daily: EmployeeDaily[];
+  days: string;
 };
 
 export default function EmployeeTable({ employees, token }: Props) {
@@ -76,8 +79,11 @@ export default function EmployeeTable({ employees, token }: Props) {
       accessorKey: "fullName",
     },
     {
-      header: "Total Hours",
-      accessorKey: "totalHours",
+      header: "Total Days",
+      accessorKey: "days",
+      cell: ({ row }) => (
+        row.getValue('days')
+      )
     },
     {
       header: "Visit Profile",
