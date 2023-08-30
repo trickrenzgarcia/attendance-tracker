@@ -1,12 +1,11 @@
 import { getAccessToken } from "@/lib/access-token";
 import axios from "axios";
 import { calculateTotalHours } from "@/lib/format-date";
+import { getApiEndPoint } from "./get-cutoff";
 
 export const getPerson = async (paramsId: string) => {
   const token = await getAccessToken();
-  const date = "2023-08-05";
-  const endDate = "2023-08-21";
-  const endpoint = `https://time-attendance.prod.jibble.io/v1/TimesheetsSummary?period=Custom&date=${date}&endDate=${endDate}&personIds=${paramsId}`;
+  const endpoint = (await getApiEndPoint()) + `&personIds=${paramsId}`;
 
   try {
     const responseData = await axios.get(endpoint, {

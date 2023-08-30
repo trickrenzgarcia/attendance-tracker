@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import axios from "axios";
 import { calculateTotalHours } from "./format-date";
+import { getApiEndPoint, isFirstCutOff } from "./get-cutoff";
 
 async function getUserData(): Promise<any> {
   const data = await getServerSession(authOptions);
@@ -12,7 +13,8 @@ async function getUserData(): Promise<any> {
 
   try {
     const accessToken = await getAccessToken();
-    const endpoint = `https://time-attendance.prod.jibble.io/v1/TimesheetsSummary?period=Custom&date=2023-08-01&endDate=2023-08-08`;
+    const endpoint = await getApiEndPoint();
+    console.log(endpoint);
     const responseData = await axios.get(endpoint, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
