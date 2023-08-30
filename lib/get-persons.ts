@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import axios from "axios";
 import { calculateTotalHours } from "./format-date";
 
-async function getUserData(): Promise<any | []> {
+async function getUserData(): Promise<any> {
   const data = await getServerSession(authOptions);
 
   if (!data) redirect("/api/auth/signin");

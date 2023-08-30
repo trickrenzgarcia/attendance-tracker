@@ -255,6 +255,7 @@ export function totalDaysOfWork(daily: EmployeeDaily[]) {
 
 export function totalTardinessTime(daily: EmployeeDaily[]) {
   const t = daily.filter((d) => d.firstIn !== null && d.lastOut !== null);
+  if (!t) return "No tardiness";
   const m = t
     .map((x) => calculateTardiness(x.firstIn, x.lastOut, x.firstIn))
     .filter((c) => c.includes("minutes") || c.includes("minute"))
@@ -272,7 +273,7 @@ export function totalTardinessTime(daily: EmployeeDaily[]) {
   // Convert total minutes to hours and minutes
   const hours = Math.floor(totalMinutes / 60) + totalHours;
   const minutes = totalMinutes % 60;
-  let hh = hours > 1 ? hours + " hours" : " hour";
+  let hh = hours > 1 ? hours + " hours" : hours + " hour";
   let mm = minutes > 1 ? minutes + " minutes" : minutes + " minute";
 
   // Format hours and minutes
