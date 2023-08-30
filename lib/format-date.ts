@@ -107,10 +107,10 @@ export function fixedLastOut(dateTime: string) {
 
   if (employeeLastOut.getDay() === 6) {
     lastOutTime.setHours(13, 0, 0, 0);
-    if (employeeLastOut > lastOutTime) return "01:00 PM";
+    if (employeeLastOut >= lastOutTime) return "01:00 PM";
   } else {
     lastOutTime.setHours(18, 0, 0, 0); // set to 6:00 PM on the same day
-    if (employeeLastOut > lastOutTime) {
+    if (employeeLastOut >= lastOutTime) {
       return "06:00 PM";
     }
   }
@@ -121,7 +121,7 @@ export function fixedLastOut(dateTime: string) {
     hour12: true,
     timeZone: "Asia/Manila",
   });
-  return formattedTime + " test";
+  return formattedTime;
 }
 
 export function trackedTime(fIn: string, lOut: string, dataTime: string) {
