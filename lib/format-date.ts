@@ -104,7 +104,7 @@ export function fixedLastOut(dateTime: string) {
     return "6:00 PM";
   }
 
-  const lastOutTime = new Date(dateTime);
+  let lastOutTime = new Date(dateTime);
 
   if (employeeLastOut.getDay() === 6) {
     lastOutTime.setHours(13, 0, 0, 0);
