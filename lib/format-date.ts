@@ -96,26 +96,29 @@ export function isNoLastOut(dateTime: string): boolean {
   return !dateTime ? true : false;
 }
 
-export function fixedLastOut(dateTime: string) {
+export function fixedLastOut(dateTime: string): string {
   const employeeLastOut = new Date(dateTime);
 
   if (!dateTime) {
     return "6:00 PM";
   }
 
-  let lastOutTime = new Date(dateTime);
-  lastOutTime.setHours(18, 0, 0, 0); // set to 6:00 PM on the same day
+  const formattedTime: string = new Date(employeeLastOut).toLocaleTimeString(
+    [],
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Manila",
+    }
+  );
 
-  if (employeeLastOut >= lastOutTime) {
-    return "06:00 PM";
-  }
+  const day = employeeLastOut.getDay();
+  const hour: number = parseInt(formattedTime.split(":")[0][1]);
 
-  const formattedTime = new Date(employeeLastOut).toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-    timeZone: "Asia/Manila",
-  });
+  if (hour >= 6 && day !== 6) return "6:00 PM";
+  else if (hour >= 1 && day === 6) return "1:00 PM";
+
   return formattedTime;
 }
 

@@ -14,7 +14,6 @@ async function getUserData(): Promise<any> {
   try {
     const accessToken = await getAccessToken();
     const endpoint = await getApiEndPoint();
-    console.log(endpoint);
     const responseData = await axios.get(endpoint, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

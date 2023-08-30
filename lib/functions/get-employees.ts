@@ -35,6 +35,5 @@ export async function getEmployees() {
     fixedNames.includes(employee.fullName)
   );
 
-  console.log(employees[0].daily[0]);
   return employees;
 }
