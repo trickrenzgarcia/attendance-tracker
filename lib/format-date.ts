@@ -115,9 +115,10 @@ export function fixedLastOut(dateTime: string): string {
 
   const day = employeeLastOut.getDay();
   const hour: number = parseInt(formattedTime.split(":")[0][1]);
+  const period: string = formattedTime.split(":")[1].split(" ")[1];
 
-  if (hour >= 6 && day !== 6) return "6:00 PM";
-  else if (hour >= 1 && day === 6) return "1:00 PM";
+  if (hour >= 6 && day !== 6 && period === "PM") return "6:00 PM";
+  else if (hour >= 1 && day === 6 && period === "PM") return "1:00 PM";
 
   return formattedTime;
 }
