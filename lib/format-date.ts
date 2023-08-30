@@ -1,4 +1,3 @@
-import moment from "moment";
 import { EmployeeDaily } from "./types/Employee";
 
 export function formatDate(inputDate: string): string {
