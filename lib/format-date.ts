@@ -93,11 +93,15 @@ export function fixedFirstIn(dateTime: string) {
   return formattedTime;
 }
 
+export function isNoLastOut(dateTime: string): boolean {
+  return !dateTime ? true : false;
+}
+
 export function fixedLastOut(dateTime: string) {
   const employeeLastOut = new Date(dateTime);
 
   if (!dateTime) {
-    return "No record";
+    return "6:00 PM";
   }
 
   const lastOutTime = new Date(dateTime);
@@ -131,6 +135,19 @@ export function trackedTime(fIn: string, lOut: string, dataTime: string) {
 
   const trackedTimeInSeconds = (lastOut - firstIn) / 1000; // Convert milliseconds to seconds
   const requiredWorkTimeInSeconds = 9 * 60 * 60; // 9 hours in seconds
+  const getPeriod = fIn.split(":")[1].split(" ")[1];
+
+  if (getPeriod == "PM") {
+    // walang bawas
+    const hours = Math.floor(trackedTimeInSeconds / 3600); // Convert seconds to hours
+    const minutes = Math.floor((trackedTimeInSeconds % 3600) / 60); // Remaining seconds to minutes
+    const period = hours >= 12 ? "Hours" : "Hours";
+    const displayHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+
+    return `${displayHours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")} ${period}`;
+  }
 
   if (new Date(dataTime).getDay() === 6) {
     if (trackedTimeInSeconds >= 4 * 60 * 60) return "04:00 Hours";
