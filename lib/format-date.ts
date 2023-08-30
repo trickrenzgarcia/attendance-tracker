@@ -121,7 +121,7 @@ export function fixedLastOut(dateTime: string) {
     hour12: true,
     timeZone: "Asia/Manila",
   });
-  return formattedTime;
+  return formattedTime + " test";
 }
 
 export function trackedTime(fIn: string, lOut: string, dataTime: string) {
