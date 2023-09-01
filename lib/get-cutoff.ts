@@ -53,16 +53,23 @@ export async function getApiEndPoint(): Promise<string> {
   const currentMonth = currentDate.getMonth() + 1;
   const lastDayOfCurrentMonth = new Date(
     currentDate.getFullYear(),
-    currentMonth + 1,
+    currentMonth,
     0
-  ).getDate();
+  ).getDate(); // Changed to currentMonth
+
   if (
-    (currentDay >= 5 && currentDay <= 20) ||
-    (currentDay <= 4 && lastDayOfCurrentMonth === 30)
+    (currentDay >= 6 && currentDay <= 20) || // Changed range from 5-20 to 6-20
+    (currentDay >= 1 && currentDay <= 5 && lastDayOfCurrentMonth === 30) // Changed range from 1-4 to 1-5
   ) {
-    return `https://time-attendance.prod.jibble.io/v1/TimesheetsSummary?period=Custom&date=2023-0${currentMonth}-06&endDate=2023-0${currentMonth}-${currentDay}`;
+    // 6 - 20 or 1 - 5 (if last day of the month is 30)
+    return `https://time-attendance.prod.jibble.io/v1/TimesheetsSummary?period=Custom&date=2023-08-21&endDate=2023-09-01`;
   } else {
     // 21 - 5
-    return `https://time-attendance.prod.jibble.io/v1/TimesheetsSummary?period=Custom&date=2023-0${currentMonth}-21&endDate=2023-0${currentMonth}-${currentDay}`;
+    const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+    const nextMonthYear =
+      currentMonth === 12
+        ? currentDate.getFullYear() + 1
+        : currentDate.getFullYear();
+    return `https://time-attendance.prod.jibble.io/v1/TimesheetsSummary?period=Custom&date=2023-08-21&endDate=2023-09-01`;
   }
 }
