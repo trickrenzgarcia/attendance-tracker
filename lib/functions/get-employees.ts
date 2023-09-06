@@ -1,4 +1,4 @@
-import { Employee } from "lib/types/Employee";
+import { Employee, EmployeeDaily } from "lib/types/Employee";
 import { getOJTS } from "./get-ojts";
 import { sliceData } from "./get-slice-data";
 import { getFlexibleEmployees } from ".";
@@ -35,5 +35,9 @@ export async function getEmployees() {
     fixedNames.includes(employee.fullName)
   );
 
-  return employees;
+  const filterEmp = employees.map((employee: any) => ({
+    ...employee,
+    type: "employee",
+  }));
+  return filterEmp;
 }

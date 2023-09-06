@@ -13,7 +13,7 @@ async function getUserData(): Promise<any> {
 
   try {
     const accessToken = await getAccessToken();
-    const endpoint = `https://time-attendance.prod.jibble.io/v1/TimesheetsSummary?period=Custom&date=2023-08-21&endDate=2023-09-01`; //await getApiEndPoint();
+    const endpoint = await getApiEndPoint();
     const responseData = await axios.get(endpoint, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

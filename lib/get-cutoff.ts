@@ -45,7 +45,7 @@ export function getCurrentCutOff() {
     // 6 - 20 or 1 - 5 (if last day of the month is 30)
     return `${currentMonth.toString().padStart(2, "0")}-05 -> ${currentMonth
       .toString()
-      .padStart(2, "0")}-20`;
+      .padStart(2, "0")}-20 (First Cut-off)`;
   } else {
     // 21 - 4
     const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
@@ -56,7 +56,9 @@ export function getCurrentCutOff() {
 
     return `${(currentMonth - 1)
       .toString()
-      .padStart(2, "0")}-21 -> ${currentMonth.toString().padStart(2, "0")}-04`;
+      .padStart(2, "0")}-21 -> ${currentMonth
+      .toString()
+      .padStart(2, "0")}-04 (Second Cut-off)`;
   }
 }
 

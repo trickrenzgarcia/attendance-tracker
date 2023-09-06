@@ -30,7 +30,6 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Input } from "./ui/input";
 import { EmployeeDaily } from '@/lib/types/Employee';
-import { totalDaysOfWork } from '@/lib/format-date';
 
 type Props = {
   employees: any;
@@ -78,12 +77,9 @@ export default function EmployeeTable({ employees, token }: Props) {
       header: "Full Name",
       accessorKey: "fullName",
     },
-    {
-      header: "Total Days",
+    { 
+      header: "Total Days", 
       accessorKey: "days",
-      cell: ({ row }) => (
-        row.getValue('days')
-      )
     },
     {
       header: "Visit Profile",
@@ -168,7 +164,6 @@ export default function EmployeeTable({ employees, token }: Props) {
       />
       <Card>
         <Table>
-          <TableCaption>fetched from jibble API</TableCaption>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup: any) => (
               <TableRow key={headerGroup.id}>

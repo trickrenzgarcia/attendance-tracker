@@ -21,5 +21,7 @@ export async function getOJTS() {
     ojtNames.includes(employee.fullName)
   );
 
-  return ojtEmployees;
+  const filterOjt = ojtEmployees.map((ojt: any) => ({ ...ojt, type: "ojt" }));
+
+  return filterOjt;
 }

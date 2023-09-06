@@ -21,5 +21,10 @@ export async function getFlexibleEmployees() {
     flexibleNames.includes(employee.fullName)
   );
 
-  return flexEmployees;
+  const filterFlex = flexEmployees.map((flex: any) => ({
+    ...flex,
+    type: "flexible",
+  }));
+
+  return filterFlex;
 }
