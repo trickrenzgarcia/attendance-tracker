@@ -20,5 +20,6 @@ export async function sliceData(): Promise<any> {
     };
   });
 
+  console.log(newData[0].daily[0]);
   return newData || [];
 }

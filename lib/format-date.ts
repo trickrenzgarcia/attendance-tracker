@@ -269,16 +269,23 @@ export function totalDaysOfWork(daily: EmployeeDaily[]) {
 }
 
 export function totalTardinessTime(daily: EmployeeDaily[]) {
-  const t = daily.filter((d) => d.firstIn !== null && d.lastOut !== null);
+  const t = daily.filter((d) => d.firstIn !== null);
   if (!t) return "No tardiness";
+
   const m = t
-    .map((x) => calculateTardiness(x.firstIn, x.lastOut, x.firstIn))
-    .filter((c) => c.includes("minutes") || c.includes("minute"))
-    .map((z) => parseInt(z.split(" ")[0]));
+    .map((m) => calculateTardiness(m.firstIn, m.lastOut, m.firstIn))
+    .filter((c) => c.includes("minute"))
+    .map((str) => {
+      const match = str.match(/(\d+) minutes?/);
+      return match ? parseInt(match[1]) : 0;
+    });
   const h = t
-    .map((x) => calculateTardiness(x.firstIn, x.lastOut, x.firstIn))
-    .filter((c) => c.includes("hours") || c.includes("hour"))
-    .map((z) => parseInt(z.split(" ")[0]));
+    .map((m) => calculateTardiness(m.firstIn, m.lastOut, m.firstIn))
+    .filter((c) => c.includes("hour"))
+    .map((str) => {
+      const match = str.match(/(\d+) hours?/);
+      return match ? parseInt(match[1]) : 0;
+    });
 
   // Sum up the total minutes
   const totalMinutes = m.reduce((acc, current) => acc + current, 0);

@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: { id: string }}){
   if(!data) redirect('/api/auth/signin')
 
   const person = await getPerson(params.id)
-  
+
   return (
     <main> 
       {person.map((p: any) => (
@@ -52,11 +52,8 @@ export default async function Page({ params }: { params: { id: string }}){
                     <span className="text-[14px]">Full name</span>
                     <p className="font-bold mb-5 text-[22px]">{p.fullName}</p>
 
-                    <span className="text-[14px]">Total hours of work</span>
-                    <p className="font-bold mb-5 text-3xl">{p.totalHours}</p>
-
-                    <span className="text-[14px]">Total Days:</span>
-                    <p className="font-bold mb-5 text-3xl">{totalDaysOfWork(p.daily)}</p>
+                    {/* <span className="text-[14px]">Total Days:</span>
+                    <p className="font-bold mb-5 text-3xl">{totalDaysOfWork(p.daily)}</p> */}
                     <span className="text-[14px]">Total Tardiness:</span>
                     <p className="font-bold mb-5 text-3xl">{totalTardinessTime(p.daily)}</p>
                     
