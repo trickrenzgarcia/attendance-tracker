@@ -10,7 +10,7 @@ import Content from "@/components/Content";
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import { getTotalTrackedTime } from '@/lib/functions';
+import { totalHoursWork } from '@/lib/get-totalHoursWork';
 
 export default async function Page({ params }: { params: { id: string }}){
   const data = await getServerSession(authOptions)
@@ -54,9 +54,17 @@ export default async function Page({ params }: { params: { id: string }}){
 
                     {/* <span className="text-[14px]">Total Days:</span>
                     <p className="font-bold mb-5 text-3xl">{totalDaysOfWork(p.daily)}</p> */}
-                    <span className="text-[14px]">Total Tardiness:</span>
-                    <p className="font-bold mb-5 text-3xl">{totalTardinessTime(p.daily)}</p>
-                    
+                    {p.type.employeeType === 'Flexible' ? 
+                    <>
+                      <span className="text-[14px]">Total Hours:</span>
+                      <p className="font-bold mb-5 text-3xl">{totalHoursWork(p.daily)}</p>
+                    </> 
+                    :
+                    <>
+                      <span className="text-[14px]">Total Tardiness:</span>
+                      <p className="font-bold mb-5 text-3xl">{totalTardinessTime(p.daily)}</p>
+                    </>
+                    }
                   </CardContent>
               </Card>
             </div>

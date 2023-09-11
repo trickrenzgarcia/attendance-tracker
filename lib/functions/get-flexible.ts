@@ -2,10 +2,10 @@ import { PrismaClient } from "@prisma/client";
 import { Employee } from "lib/types/Employee";
 import { sliceData } from "./get-slice-data";
 
+const prisma = new PrismaClient();
+
 export async function getFlexibleEmployees() {
   const employees = await sliceData();
-  const prisma = new PrismaClient();
-
   const flexible = await prisma.employees.findMany({
     where: {
       employeeType: "flexible",
@@ -23,8 +23,25 @@ export async function getFlexibleEmployees() {
 
   const filterFlex = flexEmployees.map((flex: any) => ({
     ...flex,
-    type: "flexible",
+    type: "Flexible",
   }));
 
   return filterFlex;
+}
+
+export async function getFlexiblePerson(name: string) {
+  try {
+    const flexi = await prisma.employees.findFirst({
+      where: {
+        name: name,
+      },
+      select: {
+        employeeType: true,
+      },
+    });
+
+    return flexi;
+  } catch (err) {
+    console.log(err);
+  }
 }

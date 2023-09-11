@@ -107,7 +107,7 @@ export default function EmployeeTable({ employees, token }: Props) {
                     <h4 className="text-sm font-semibold">
                       @{`${user.fullName}`}
                     </h4>
-                    <p className="text-sm">Click view for more details...</p>
+                    <p className="text-sm">type: <b>{user.type}</b></p>
                     <div className="flex items-center pt-2">
                       <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}
                       <span className="text-xs text-muted-foreground">
