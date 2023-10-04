@@ -87,7 +87,9 @@ export async function getApiEndPoint(): Promise<string> {
     // 21 - 4
     const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
     const nextMonthYear = currentMonth === 12 ? currentYear + 1 : currentYear;
-    return `https://time-attendance.prod.jibble.io/v1/TimesheetsSummary?period=Custom&date=${currentYear}-${currentMonth
+    return `https://time-attendance.prod.jibble.io/v1/TimesheetsSummary?period=Custom&date=${currentYear}-${(
+      currentMonth - 1
+    )
       .toString()
       .padStart(2, "0")}-21&endDate=${currentYear}-${currentMonth
       .toString()
